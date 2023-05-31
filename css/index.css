@@ -1,0 +1,274 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap");
+
+:root {
+  --dark-gray: #1a2a32;
+  --silver: #9792a4;
+  --purple: #a078f6;
+  --magenta: #ee57f1;
+  --light-gray: #c0c0ff;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  list-style: none;
+  font-family: "Montserrat", sans-serif;
+  border: none;
+}
+
+html,
+body {
+  height: 100%;
+  background-color: var(--dark-gray);
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Shared utility classes */
+
+.hidden {
+  display: none !important;
+}
+
+.magenta {
+  color: var(--magenta);
+}
+
+.purple {
+  color: var(--purple);
+}
+
+.border {
+  border: 1px solid var(--silver);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, 82px);
+  grid-template-rows: 50px repeat(6, 82px);
+  gap: 5px;
+}
+
+.grid-scores {
+  display: grid;
+  grid-template-columns: repeat(3, 198px);
+  grid-template-rows: 60px;
+  margin-top: 5px;
+  gap: 5px;
+}
+
+.turn {
+  color: var(--magenta);
+  align-self: center;
+  grid-column-start: 1;
+  grid-column-end: 4;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+@keyframes turn-icon-animation {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.4);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.turn i {
+  font-size: 1.8rem;
+  margin-left: 10px;
+  animation: 0.6s ease-in-out turn-icon-animation;
+}
+
+@keyframes turn-text-animation {
+  0% {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  100% {
+    opacity: 100%;
+    transform: translateX(0);
+  }
+}
+
+.turn p {
+  font-size: 14px;
+  animation: 0.6s ease-in-out turn-text-animation;
+}
+
+/* Menu styles */
+
+.menu {
+  position: relative;
+  grid-column-start: 6;
+  grid-column-end: 8;
+}
+
+.menu-button {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 10px;
+  color: white;
+  background-color: rgba(222, 222, 222, 0.15);
+  border: 1px solid transparent;
+}
+
+.items {
+  position: absolute;
+  z-index: 10;
+  top: 55px;
+  right: 0;
+  background-color: #203139;
+  border-radius: 2px;
+  padding: 10px;
+}
+
+.items button {
+  background-color: transparent;
+  padding: 8px;
+  color: white;
+}
+
+.items button:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.square {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--silver);
+}
+
+.circle {
+  width: 70px;
+  height: 70px;
+  border: 2px solid black;
+  border-radius: 35px;
+  background-color: var(--dark-gray);
+}
+
+.circle:hover {
+  cursor: pointer;
+  opacity: 90%;
+}
+
+@keyframes circle-enter-magenta {
+  0% {
+    background-color: var(--dark-gray);
+  }
+  100% {
+    background-color: var(--magenta);
+  }
+}
+
+@keyframes circle-enter-purple {
+  0% {
+    background-color: var(--dark-gray);
+  }
+  100% {
+    background-color: var(--purple);
+  }
+}
+
+@keyframes circle-leave-magenta {
+  0% {
+    background-color: var(--magenta);
+  }
+  100% {
+    background-color: var(--dark-gray);
+  }
+}
+
+@keyframes circle-leave-purple {
+  0% {
+    background-color: var(--purple);
+  }
+  100% {
+    background-color: var(--dark-gray);
+  }
+}
+
+.circle-magenta {
+  animation: 0.3s forwards circle-enter-magenta;
+}
+
+.circle-purple {
+  animation: 0.3s forwards circle-enter-purple;
+}
+
+.circle-remove-magenta {
+  animation: 1.5s forwards circle-leave-magenta;
+}
+
+.circle-remove-purple {
+  animation: 1.5s forwards circle-leave-purple;
+}
+
+.score {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+}
+
+.score p {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.score span {
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+/* Modal styles - opens when game finishes  */
+
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modal-contents {
+  transform: translateY(-80px);
+  height: 150px;
+  width: 100%;
+  max-width: 300px;
+  background-color: #2a4544;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  color: white;
+  margin: 10px;
+}
+
+.modal-contents button {
+  padding: 10px;
+  background-color: var(--magenta);
+  color: #2a4544;
+  border-radius: 3px;
+}

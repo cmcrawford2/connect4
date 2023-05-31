@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/index.css" />
+    <script
+      src="https://kit.fontawesome.com/3bfd3ce9e5.js"
+      crossorigin="anonymous"
+    ></script>
+    <title>Connect 4</title>
+  </head>
+  <body>
+    <main>
+      <div class="grid">
+        <!-- Turn indicator -->
+        <div class="turn magenta" data-id="turn">
+          <i class="fa-solid fa-circle"></i>
+          <p data-id="turn-label">Player 1, you're up!</p>
+        </div>
+
+        <!-- Dropdown menu -->
+        <div class="menu" data-id="menu">
+          <button class="menu-button" data-id="menu-button">
+            Actions
+            <i class="fa-solid fa-chevron-down"></i>
+          </button>
+
+          <div class="items border hidden" data-id="menu-items">
+            <button data-id="reset-button">Reset</button>
+            <button data-id="new-round-button">New Round</button>
+          </div>
+        </div>
+
+        <!-- Game board -->
+        <div class="square"><div id="1" class="circle"></div></div>
+        <div class="square"><div id="2" class="circle"></div></div>
+        <div class="square"><div id="3" class="circle"></div></div>
+        <div class="square"><div id="4" class="circle"></div></div>
+        <div class="square"><div id="5" class="circle"></div></div>
+        <div class="square"><div id="6" class="circle"></div></div>
+        <div class="square"><div id="7" class="circle"></div></div>
+        <div class="square"><div id="8" class="circle"></div></div>
+        <div class="square"><div id="9" class="circle"></div></div>
+        <div class="square"><div id="10" class="circle"></div></div>
+        <div class="square"><div id="11" class="circle"></div></div>
+        <div class="square"><div id="12" class="circle"></div></div>
+        <div class="square"><div id="13" class="circle"></div></div>
+        <div class="square"><div id="14" class="circle"></div></div>
+        <div class="square"><div id="15" class="circle"></div></div>
+        <div class="square"><div id="16" class="circle"></div></div>
+        <div class="square"><div id="17" class="circle"></div></div>
+        <div class="square"><div id="18" class="circle"></div></div>
+        <div class="square"><div id="19" class="circle"></div></div>
+        <div class="square"><div id="20" class="circle"></div></div>
+        <div class="square"><div id="21" class="circle"></div></div>
+        <div class="square"><div id="22" class="circle"></div></div>
+        <div class="square"><div id="23" class="circle"></div></div>
+        <div class="square"><div id="24" class="circle"></div></div>
+        <div class="square"><div id="25" class="circle"></div></div>
+        <div class="square"><div id="26" class="circle"></div></div>
+        <div class="square"><div id="27" class="circle"></div></div>
+        <div class="square"><div id="28" class="circle"></div></div>
+        <div class="square"><div id="29" class="circle"></div></div>
+        <div class="square"><div id="30" class="circle"></div></div>
+        <div class="square"><div id="31" class="circle"></div></div>
+        <div class="square"><div id="32" class="circle"></div></div>
+        <div class="square"><div id="33" class="circle"></div></div>
+        <div class="square"><div id="34" class="circle"></div></div>
+        <div class="square"><div id="35" class="circle"></div></div>
+        <div class="square"><div id="36" class="circle"></div></div>
+        <div class="square"><div id="37" class="circle"></div></div>
+        <div class="square"><div id="38" class="circle"></div></div>
+        <div class="square"><div id="39" class="circle"></div></div>
+        <div class="square"><div id="40" class="circle"></div></div>
+        <div class="square"><div id="41" class="circle"></div></div>
+        <div class="square"><div id="42" class="circle"></div></div>
+      </div>
+      <!-- Score board -->
+      <div class="grid-scores">
+        <div class="score" style="background-color: var(--magenta)">
+          <p>Player 1</p>
+          <span data-id="player1-stats">0 Wins</span>
+        </div>
+        <div class="score" style="background-color: var(--light-gray)">
+          <p>Ties</p>
+          <span data-id="ties">0</span>
+        </div>
+        <div class="score" style="background-color: var(--purple)">
+          <p>Player 2</p>
+          <span data-id="player2-stats">0 Wins</span>
+        </div>
+      </div>
+    </main>
+
+    <!-- Modal that opes when game ends -->
+    <div class="modal hidden" data-id="modal">
+      <div class="modal-contents">
+        <p data-id="modal-text">Player 1 wins!</p>
+        <button data-id="modal-button">Play again</button>
+      </div>
+    </div>
+
+    <script src="js/app.js"></script>
+  </body>
+</html>

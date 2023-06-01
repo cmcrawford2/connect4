@@ -12,7 +12,9 @@ export default class View {
     this.$.modalText = this.#qs('[data-id="modal-text"]');
     this.$.modalButton = this.#qs('[data-id="modal-button"]');
     this.$.turn = this.#qs('[data-id="turn"]');
-
+    this.$.p1Wins = this.#qs('[data-id="p1-wins"]');
+    this.$.p2Wins = this.#qs('[data-id="p2-wins"]');
+    this.$.ties = this.#qs('[data-id="ties"]');
     this.$$.circles = this.#qsAll(".circle");
 
     // UI only event listeners
@@ -43,6 +45,12 @@ export default class View {
   /*
    * DOM helper methods
    */
+
+  updateScoreboard(p1Wins, p2Wins, ties) {
+    this.$.p1Wins.innerText = p1Wins === 1 ? `${p1Wins} win` : `${p1Wins} wins`;
+    this.$.p2Wins.innerText = p2Wins === 1 ? `${p2Wins} win` : `${p2Wins} wins`;
+    this.$.ties.innerText = ties === 1 ? `${ties} tie` : `${ties} ties`;
+  }
 
   openModal(message) {
     this.$.modal.classList.remove("hidden");
@@ -87,8 +95,6 @@ export default class View {
   }
 
   handlePlayerMove(circle, currentPlayer) {
-    if (circle.classList.contains("data-occupied")) return;
-
     let thisCircle = circle;
     let circleId = +thisCircle.id;
 
@@ -97,16 +103,19 @@ export default class View {
     } else {
       thisCircle.classList.add("circle-purple");
     }
+
     let nextCircle = thisCircle;
     // If there are empty circles under this one, advance the position.
     while (circleId < 36) {
       // Note the circles array index starts at 0, but the ids start at 1.
       // We need to advance 7 to get the next circle below.
+      // However id is already advanced by one.
       let nextIndex = circleId + 6;
       if (this.$$.circles[nextIndex].classList.contains("data-occupied")) break;
       nextCircle = this.$$.circles[nextIndex];
       circleId = +nextCircle.id;
     }
+
     if (thisCircle !== nextCircle) {
       // Remove the color from the start circle.
       setTimeout(() => {
@@ -139,6 +148,7 @@ export default class View {
     }
 
     nextCircle.classList.add("data-occupied");
+    return +nextCircle.id;
   }
 
   setTurnIndicator(player) {

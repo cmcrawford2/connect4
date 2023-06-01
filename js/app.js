@@ -25,11 +25,26 @@ function init() {
 
     view.clearMoves();
     view.setTurnIndicator(store.game.currentPlayer);
+
+    const stats = store.stats;
+
+    view.updateScoreboard(
+      stats.playerWithStats[0].wins,
+      stats.playerWithStats[1].wins,
+      stats.ties
+    );
   });
 
   view.bindNewRoundEvent((event) => {
-    console.log("new round event");
-    console.log(event);
+    view.closeAll();
+    view.clearMoves();
+    view.setTurnIndicator(store.game.currentPlayer);
+    const stats = store.stats;
+    view.updateScoreboard(
+      stats.playerWithStats[0].wins,
+      stats.playerWithState[1].wins,
+      stats.ties
+    );
   });
 
   view.bindPlayerMoveEvent((event) => {
@@ -38,10 +53,13 @@ function init() {
     if (clickedCircle.classList.contains("data-occupied")) return;
 
     // Handle the move; put the color in the right circle.
-    view.handlePlayerMove(clickedCircle, store.game.currentPlayer);
+    const finalCircleId = view.handlePlayerMove(
+      clickedCircle,
+      store.game.currentPlayer
+    );
 
     // Update the state with the new move
-    store.playerMove(+clickedCircle.id);
+    store.playerMove(finalCircleId);
 
     if (store.game.status.isComplete) {
       view.openModal(

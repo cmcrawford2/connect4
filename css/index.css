@@ -32,6 +32,9 @@ body {
 
 /* Shared utility classes */
 
+/* !important is not a comment. */
+/* It forces hidden to be the main display when there are also other displays. */
+
 .hidden {
   display: none !important;
 }

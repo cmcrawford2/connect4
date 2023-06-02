@@ -14,37 +14,34 @@ const players = [
   },
 ];
 
+// We've tried to make this game "declarative" rather than "imperative"
+// meaning that we declare what we want and let View figure out how to do it.
+// But it's complicated by the UI for choosing a color.
+// You can drop a token from any empty space in the column above, and it
+// appears in the right place below. We us timesouts to make that look good.
+// So a player move has to be called differently, and we couldn't have the
+// "store" simply trigger a render when the state changes.
+// Render erases everything and then fills it back in again from the moves.
+
 function init() {
   const view = new View();
-  const store = new Store(players);
+  const store = new Store("connect4-storage-key", players);
 
-  view.bindGameResetEvent((event) => {
-    view.closeAll();
-
-    store.reset();
-
-    view.clearMoves();
-    view.setTurnIndicator(store.game.currentPlayer);
-
-    const stats = store.stats;
-
-    view.updateScoreboard(
-      stats.playerWithStats[0].wins,
-      stats.playerWithStats[1].wins,
-      stats.ties
-    );
+  // This isn't working right now.
+  window.addEventListener("storage", () => {
+    view.render(store.game, store.stats);
   });
 
-  view.bindNewRoundEvent((event) => {
-    view.closeAll();
-    view.clearMoves();
-    view.setTurnIndicator(store.game.currentPlayer);
-    const stats = store.stats;
-    view.updateScoreboard(
-      stats.playerWithStats[0].wins,
-      stats.playerWithState[1].wins,
-      stats.ties
-    );
+  view.render(store.game, store.stats);
+
+  view.bindGameResetEvent(() => {
+    store.reset();
+    view.render(store.game, store.stats);
+  });
+
+  view.bindNewRoundEvent(() => {
+    store.newRound();
+    view.render(store.game, store.stats);
   });
 
   view.bindPlayerMoveEvent((event) => {
@@ -61,17 +58,8 @@ function init() {
     // Update the state with the new move
     store.playerMove(finalCircleId);
 
-    if (store.game.status.isComplete) {
-      view.openModal(
-        store.game.status.winner
-          ? `${store.game.status.winner.name} wins!`
-          : "Tie game!"
-      );
-      return;
-    }
-
-    // currentPlayer is changed now; reset the turn indicator.
-    view.setTurnIndicator(store.game.currentPlayer);
+    // Render, but not from the start.
+    view.renderPart(store.game, store.stats);
   });
 }
 

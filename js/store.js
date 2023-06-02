@@ -1,3 +1,4 @@
+// Initial value of the state.
 const initialValue = {
   currentGameMoves: [],
   history: {
@@ -6,12 +7,17 @@ const initialValue = {
   },
 };
 
-export default class Store {
-  #state = initialValue;
+/*
+ * The store contains the state and the functions that access it.
+ */
 
-  constructor(players) {
+export default class Store {
+  constructor(key, players) {
+    this.storageKey = key;
     this.players = players;
   }
+
+  // "getter" function that sets up statistics.
 
   get stats() {
     const state = this.#getState();
@@ -19,7 +25,7 @@ export default class Store {
     return {
       playerWithStats: this.players.map((player) => {
         const wins = state.history.currentRoundGames.filter(
-          (curGame) => curGame.status.winner?.id === player.id
+          (game) => game.status.winner?.id === player.id
         ).length;
         return {
           ...player,
@@ -31,6 +37,8 @@ export default class Store {
       ).length,
     };
   }
+
+  // "getter" function that checks for a winning pattern.
 
   get game() {
     const state = this.#getState();
@@ -61,6 +69,8 @@ export default class Store {
     };
   }
 
+  // Register a move.
+
   playerMove(circleId) {
     const stateClone = structuredClone(this.#getState());
 
@@ -71,6 +81,8 @@ export default class Store {
 
     this.#saveState(stateClone);
   }
+
+  // reset the game, but keep the round going.
 
   reset() {
     // Called from two places: game over, and reset button.
@@ -91,19 +103,26 @@ export default class Store {
     this.#saveState(stateClone);
   }
 
+  // reset the game, and start a new round.
+
   newRound() {
     this.reset();
     const stateClone = structuredClone(this.#getState());
 
     stateClone.history.allGames.push(...stateClone.history.currentRoundGames);
-
     stateClone.history.currentRoundGames = [];
-    this;
+
+    this.#saveState(stateClone);
   }
+
+  // get the state from local storage.
 
   #getState() {
-    return this.#state;
+    const item = window.localStorage.getItem(this.storageKey);
+    return item ? JSON.parse(item) : initialValue;
   }
+
+  // write the state to local storage.
 
   #saveState(stateOrFn) {
     const prevState = this.#getState();
@@ -120,8 +139,10 @@ export default class Store {
         throw new Error("Invalid argumetn passed to saveState");
     }
 
-    this.#state = newState;
+    window.localStorage.setItem(this.storageKey, JSON.stringify(newState));
   }
+
+  // These are all possible winning patterns.
 
   #winningPatterns = [
     [1, 8, 15, 22],
